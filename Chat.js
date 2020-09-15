@@ -11,7 +11,6 @@ import {
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import firestore from "./firebase/Firestore"
 
 class Chat extends Component {
   constructor(props){
@@ -28,37 +27,10 @@ class Chat extends Component {
     
   }
 
-  listeningSuccess=(doc)=>{
-    console.log(doc)
-      this.setState({messages:this.state.messages.concat(doc.data())})
-  }
-  
-  getSuccess=(querySnapshot)=>{
-    let mes=[]
-    querySnapshot.forEach(function(doc){
-      mes.push(doc.data())
-    });
-    this.setState({messages:this.state.messages.concat(mes)});
-  }
-
   componentDidMount() {
-    //firestore.listeningMessage(this.room,this.listeningSuccess,this.unsuccess);
-    //firestore.getMessage(this.room,this.getSuccess,this.unsuccess);
-    this.initialChatMessage();
+
   }
 
-  initialChatMessage=async()=>{
-    await firestore.getMessage(this.room,this.getSuccess,this.unsuccess);
-    await firestore.listeningMessage(this.room,this.listeningSuccess,this.unsuccess);
-  }
-
-  sendSuccess=(docRef)=>{
-     //console.log(docRef);
-  }
-
-  unsuccess=(error)=>{
-     console.log(error);
-  }
 
   renderItem=({item})=>{
     return(
@@ -87,13 +59,7 @@ class Chat extends Component {
   };
 
   onSend=()=>{
-    let message = {
-      sender:this.username,
-      room:this.room,
-      text:this.state.text,
-      date:null
-    }
-    firestore.addMessage(message,this.sendSuccess,this.sendUnsuccess);
+ 
   }
 
   render(props) {
